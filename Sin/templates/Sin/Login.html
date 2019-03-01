@@ -1,0 +1,58 @@
+{% extends 'Sin/base.html'%}
+{% load static %}
+    {% block content %}
+<link rel="stylesheet" href="{% static 'Sin/loginstyle.css' %}">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
+    <link rel="stylesheet" href="{% static 'Sin/fonts/icomoon/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'Sin/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/owl.theme.default.min.css' %}">
+
+
+    <link rel="stylesheet" href="{% static 'Sin/css/aos.css' %}">
+<div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0"><a href="{% url 'Sin:index'%}">Trang chủ </a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Đăng nhập</strong></div>
+        </div>
+      </div>
+    </div>
+        <div class="border">
+        <div class="login">
+        <form action="{% url 'Sin:login'%}", method="post">
+            {% csrf_token %}
+            <div class="content">SIGN IN</div>
+            <div class="image"><img src="{% static 'Images/customer.png'%}"></div>
+            <div class="up">
+                <div class="login-username">{{ login.username }}</div>
+                <div class="login-password">{{ login.password }}</div>
+            </div>
+            <div class="link"><a href="{% url 'password_reset'%}">Forgot your password ?</a></div>
+            <input type="submit" value="LOGIN" class="btn-login">
+        </form>
+            {% if flag %}
+              <div class="message">Sai tài khoản hoặc mật khẩu</div>
+            {% endif %}
+            <div class="context-lg">
+                <div class="context-in">
+                    <p>Bạn là khách hàng mới? &nbsp;<a href="{% url 'Sin:sign-up'%}">Đăng kí ngay</a></p>
+        </div>
+</div>
+        </div>
+        </div>
+<script src="{% static 'Sin/js/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'Sin/js/jquery-ui.js' %}"></script>
+  <script src="{% static 'Sin/js/popper.min.js' %}"></script>
+  <script src="{% static 'Sin/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'Sin/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'Sin/js/jquery.magnific-popup.min.js' %}"></script>
+  <script src="{% static 'Sin/js/aos.js' %}"></script>
+
+  <script src="{% static 'Sin/js/main.js' %}"></script>
+        <br/>
+    {% endblock%}

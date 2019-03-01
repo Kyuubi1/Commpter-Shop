@@ -1,0 +1,60 @@
+{% extends 'Sin/base.html'%}
+{% load static %}
+    {% block content %}
+
+<link rel="stylesheet" href="{% static 'Sin/signup.css' %}">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
+    <link rel="stylesheet" href="{% static 'Sin/fonts/icomoon/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'Sin/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/owl.theme.default.min.css' %}">
+
+
+    <link rel="stylesheet" href="{% static 'Sin/css/aos.css' %}">
+<div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0"><a href="{% url 'Sin:index'%}">Trang chủ </a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Đăng kí tài khoản</strong></div>
+        </div>
+      </div>
+    </div>
+<div class="border">
+    <div class="form">
+        <div class="form-sign-up">
+                <div class="ft-sign-up">
+            <form action="{% url 'Sin:sign-up'%}" method="post">
+                {%  csrf_token %}
+                <h2><b>Tạo tài khoản của bạn</b></h2>
+                <div class="sign-up-username">
+                    {{ form.username }}
+                </div>
+                <div class="sign-up-password">
+                    {{ form.password }}
+                </div>
+                <div class="sign-up-email">
+                    {{ form.email }}
+                </div>
+                <div class="sign-up-sex">{{form.sex}}</div>
+                <div class="sign-up-phone">
+                    {{form.phone}}
+
+                </div>
+                <div class="btn-sign-up"><input type="submit" value="Đăng kí" class="btn-sign"></div>
+                <div class="list-error">
+                        {{form.username.errors }}
+                        {{ form.email.errors }}
+                        {{ form.phone.errors }}
+
+                </div>
+            </form>
+                </div>
+        </div>
+    </div>
+</div>
+<br/>
+    {% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'Sin/base1.html'%}
+{% load static %}
+    {% block content %}
+
+<link rel="stylesheet" href="{% static 'Sin/service.css' %}">
+<div class="border">
+    <div class="form">
+                <div class="title">
+                    <h1>Đăng kí thành công </h1>
+                    <br/>
+                    <div class="content">
+
+                        <p style="font-size: 18px">Quý khách đã đăng kí thành công dịch vụ bảo hành sản phẩm của Meliodas , vui lòng mang máy tới cửa hàng gần nhất để nhân viên kiểm tra.</p>
+                        <br/>
+                        <div class="success"><a href="{% url 'Sin:home'%}">Hoàn tất</a></div>
+
+                    </div>
+
+
+        </div>
+    </div>
+</div>
+<br/>
+<br/>
+    {% endblock %}

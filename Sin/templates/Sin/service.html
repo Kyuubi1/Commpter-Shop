@@ -1,0 +1,55 @@
+{% extends 'Sin/base1.html'%}
+{% load static %}
+    {% block content %}
+
+<link rel="stylesheet" href="{% static 'Sin/service.css' %}">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
+    <link rel="stylesheet" href="{% static 'Sin/fonts/icomoon/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'Sin/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/owl.theme.default.min.css' %}">
+
+
+    <link rel="stylesheet" href="{% static 'Sin/css/aos.css' %}">
+<div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0"><a href="{% url 'Sin:home'%}">Trang chủ </a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Dịch vụ</strong></div>
+        </div>
+      </div>
+    </div>
+<div class="border">
+    <div class="form">
+                <div class="title">
+                    <h1>Chính sách bảo hành </h1>
+                    <div class="content">
+                        <p>* Trường hợp sản phẩm đổi hết hàng, khách hàng có thể đổi sang sản phẩm khác cùng nhóm hàng có giá trị lớn hơn 50% giá trị sản phẩm lỗi (Meliodas.com sẽ hoàn tiền phần chênh lệch cho khách hàng).</p>
+                        <p>* Sản phẩm không lỗi (không phù hợp với nhu cầu của khách hàng) sẽ hoàn lại tiền máy với giá bằng 80% giá trên hoá đơn.</p>
+                        <p>* Sản phẩm lỗi do người sử dụng:</p>
+                        <ul>
+                            <li>Không đủ điều kiện bảo hành theo qui định của hãng.</li>
+                            <li>Máy không giữ nguyên 100% hình dạng ban đầu.</li>
+                            <li>Màn hình bị trầy xước</li>
+                        </ul><p>Không áp dụng bảo hành, đổi trả. Meliodas.com hỗ trợ chuyển bảo hành, khách hàng chịu chi phí sửa chữa.</p>
+                    </div>
+                    <div class="btn"><a href="{% url 'Sin:service_register'%}">Đăng kí bảo hành</a></div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'Sin/js/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'Sin/js/jquery-ui.js' %}"></script>
+  <script src="{% static 'Sin/js/popper.min.js' %}"></script>
+  <script src="{% static 'Sin/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'Sin/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'Sin/js/jquery.magnific-popup.min.js' %}"></script>
+  <script src="{% static 'Sin/js/aos.js' %}"></script>
+
+  <script src="{% static 'Sin/js/main.js' %}"></script>
+<br/>
+<br/>
+    {% endblock %}

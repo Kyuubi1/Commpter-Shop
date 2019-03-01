@@ -1,0 +1,160 @@
+{% load static %}
+{% load bootstrap4 %}
+{% load fontawesome %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
+    <link rel="stylesheet" href="{% static 'Sin/fonts/icomoon/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'Sin/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/owl.theme.default.min.css' %}">
+
+
+    <link rel="stylesheet" href="{% static 'Sin/css/aos.css' %}">
+    <title></title>
+    <link rel="stylesheet" href="{% static 'Sin/style.css' %}">
+    {% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+	{% fontawesome_stylesheet %}
+</head>
+<body>
+    <div id="page">
+<div class="header">
+  <div class="logo">
+  	<div id="toplogo"><a href="{% url 'Sin:index'%}">Meliodas</a></div>
+  </div>
+  	<div class="menutop" style="padding-left:30px;">
+  		<ul>
+			<li><a href="{% url 'Sin:index'%}">Trang chủ</a></li>
+			<li><a href="#">Dịch vụ</a></li>
+			<li class="has-dropdown">
+					<a href="#">Giỏ hàng</a>
+			</li>
+			<li class="has-dropdown">
+					<a href="#">Tài khoản</a>
+					<ul class="dropdown">
+						<li><a href="{% url 'Sin:login'%}">Đăng nhập</a></li>
+
+
+						</ul>
+			</li>
+			<li style="padding-left:320px;">
+				<form>
+					<style>
+						.in {
+      					width: 130px;
+      					box-sizing: border-box;
+     					 border: 1px solid black;
+      					border-radius: 4px;
+      					outline:none;
+      					padding: 12px 14px;
+      					height:15px;
+      					transition:0.6s ease-in-out;
+    					}
+    					input[type="text"]:focus{
+    					width:200px;
+							}
+					</style>
+				<input class="in" type="text" name="search" placeholder="Search..">
+
+				</form>
+			</li>
+				</ul>
+  	</div>
+  	<div class="socicaltop">
+		<a href="#" class="fa fa-facebook" style="padding-right:10px;font-size :20px;"></a>
+    	<a class="fa fa-instagram" style="padding-right:10px; font-size :20px;"></a>
+    	<a href="#" class="fa fa-github" style="font-size :20px;"></a>
+	</div>
+
+</div>
+
+    <div class="noidung">
+            {% block content %}
+            {% endblock %}
+    </div>
+<footer class="site-footer border-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 mb-5 mb-lg-0">
+            <div class="row">
+              <div class="col-md-12">
+                <h3 class="footer-heading mb-4">Meliodas</h3>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <ul class="list-unstyled">
+                  <li><a href="#">Dịch vụ online</a></li>
+                  <li><a href="#">Tính năng </a></li>
+                  <li><a href="#">Giới thiệu</a></li>
+
+                </ul>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <ul class="list-unstyled">
+                  <li><a href="#">Sản phẩm mobile </a></li>
+                  <li><a href="#">Phụ kiên</a></li>
+                  <li><a href="#">Phát triển website </a></li>
+                </ul>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <ul class="list-unstyled">
+                  <li><a href="#">Sales</a></li>
+                  <li><a href="#">Hardware</a></li>
+                  <li><a href="#">Software</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="block-5 mb-5">
+              <h3 class="footer-heading mb-4">Thông tin liên hệ </h3>
+              <ul class="list-unstyled">
+                <li class="address">01.Meliodas - 1997 Anh Kyuubi . VN</li>
+                <li class="phone"><a href="tel://">0337074839</a></li>
+                <li class="email">kyuubi1@gmail.com</li>
+              </ul>
+            </div>
+
+            <div class="block-7">
+              <form action="#" method="post">
+                <label for="email_subscribe" class="footer-heading">Email liên hệ </label>
+                <div class="form-group">
+                  <input type="text" class="form-control py-4" id="email_subscribe" placeholder="Email">
+                  <input type="submit" class="btn btn-sm btn-primary" value="Send">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="row pt-5 mt-5 text-center">
+          <div class="col-md-12">
+            <p>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>document.write(new Date().getFullYear());</script> All rights reserved | This website make by  <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" class="text-primary">Meliodas</a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </footer>
+		<script src="{% static 'Sin/js/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'Sin/js/jquery-ui.js' %}"></script>
+  <script src="{% static 'Sin/js/popper.min.js' %}"></script>
+  <script src="{% static 'Sin/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'Sin/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'Sin/js/jquery.magnific-popup.min.js' %}"></script>
+  <script src="{% static 'Sin/js/aos.js' %}"></script>
+
+  <script src="{% static 'Sin/js/main.js' %}"></script>
+    </div>
+
+</body>
+</html>

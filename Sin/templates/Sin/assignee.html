@@ -1,0 +1,89 @@
+{% extends 'Sin/base1.html'%}
+{% load static %}
+    {% block content %}
+
+<link rel="stylesheet" href="{% static 'Sin/assignee.css' %}">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
+    <link rel="stylesheet" href="{% static 'Sin/fonts/icomoon/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'Sin/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/owl.theme.default.min.css' %}">
+
+
+    <link rel="stylesheet" href="{% static 'Sin/css/aos.css' %}">
+<div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0"><a href="{% url 'Sin:home'%}">Trang chủ </a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Tiếp nhận bảo hành </strong></div>
+        </div>
+      </div>
+    </div>
+<div class="border">
+    <div class="form">
+        <div class="form-sign-up">
+                <div class="ft-sign-up">
+            <form action="{% url 'Sin:assignee'%}" method="post">
+                {%  csrf_token %}
+                <h2><b>Tiếp nhận bảo hành </b></h2>
+                <br/>
+                <div class="sign-up-username">Thiết bị : &nbsp; &nbsp;
+
+                    <select class="product" name="product">
+                        <option selected="selected" disabled>---Chọn sản phẩm --:</option>
+                        {% for pro in product%}
+                        <option value="{{pro}}">{{pro.name}}</option>
+                        {% endfor%}
+                    </select>
+
+                </div>
+                <div class="sign-up-email">Lỗi : &nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;&nbsp;
+                    <input type="text" class="error" name="error", value="{{error}}">
+                </div>
+                <div class="sign-up-phone">Kh.hàng: &nbsp;&nbsp;&nbsp;&nbsp;
+                   <select class="customer" name="customer">
+                       <option selected="selected" disabled>---Khách hàng --:</option>
+                       {% for fi in fix %}
+                        <option value="{{fi}}">{{fi.customer_name}}</option>
+                       {% endfor%}
+                    </select>
+                </div>
+                <div class="sign-up-password">Nhân viên: &nbsp;
+                    <select class="employee" name="employee">
+                        <option selected="selected" disabled>---Chọn nhân viên --:</option>
+                        {% for emp in employee %}
+                        <option value="{{emp}}">{{emp.username}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="sign-up-address">Tình trạng :
+                    <ul class="fixed">&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;
+                    <li><input type="radio" value="0" name="choice"> Hết bảo hành </li>
+                        <li><input type="radio" value="1"  name="choice"> Còn bảo hành </li>
+                    </ul>
+                </div>
+                <div class="btn-sign-up"><input type="submit" value="Xác nhận" class="btn-sign">
+
+                </div>
+            </form>
+                </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'Sin/js/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'Sin/js/jquery-ui.js' %}"></script>
+  <script src="{% static 'Sin/js/popper.min.js' %}"></script>
+  <script src="{% static 'Sin/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'Sin/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'Sin/js/jquery.magnific-popup.min.js' %}"></script>
+  <script src="{% static 'Sin/js/aos.js' %}"></script>
+
+  <script src="{% static 'Sin/js/main.js' %}"></script>
+<br/>
+<br/>
+    {% endblock %}

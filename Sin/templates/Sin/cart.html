@@ -1,0 +1,141 @@
+{% extends 'Sin/base1.html'%}
+{% load static %}
+    {% block content %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="{% static 'Sin/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/detail.css' %}">
+
+    <link rel="stylesheet" href="{% static 'Sin/css/aos.css' %}">
+
+    <link rel="stylesheet" href="{% static 'Sin/css/style.css' %}">
+
+
+  <div class="site-wrap">
+
+    <div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0"><a href="{% url 'Sin:home'%}">Trang chủ </a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Giỏ hàng </strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-section">
+      <div class="container">
+        <div class="row mb-5">
+          <form class="col-md-12" method="post">
+            <div class="site-blocks-table">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th class="product-thumbnail">Hình ảnh</th>
+                    <th class="product-name">Sản phẩm </th>
+                    <th class="product-price">Giá </th>
+                    <th class="product-quantity">Số lượng </th>
+                    <th class="product-total">Thành tiền </th>
+                    <th class="product-remove">Xóa </th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% if carts %}
+                  {% for pro in carts%}
+                  <form action="{% url 'Sin:cart_delete' pro.cart.id %}" method="post">
+                    {% csrf_token %}
+                  <tr>
+                    <td class="product-thumbnail">
+                      <img src="{{ pro.cart.product.image.url}}" alt="Image" class="img-fluid">
+                    </td>
+                    <td class="product-name">
+                      <h2 class="h5 text-black">{{pro.cart.product.name}}</h2>
+                    </td>
+                    <td>{{pro.cart.product.cost}} đ</td>
+                    <td>
+                      <input type="number" value={{pro.cart.number}} id="id_number">
+
+                    </td>
+                    <td>{{pro.cost}}</td>
+                    <td><button type="submit" class="btn btn-primary">X</button></td>
+                  </tr>
+                  </form>
+                  {% endfor %}
+                {% endif %}
+                </tbody>
+              </table>
+            </div>
+          </form>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row mb-5">
+              <div class="col-md-6 mb-3 mb-md-0">
+                <button class="btn btn-primary btn-sm btn-block">Cập nhật </button>
+              </div>
+              <div class="col-md-6">
+
+                <a href="{% url 'Sin:home'%}" class="btn btn-info" role="button">Tiếp tục mua hàng</a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <label class="text-black h4" for="coupon">Mã giảm giá </label>
+                <p>Nhập mã giảm giá nếu bạn có .</p>
+              </div>
+              <div class="col-md-8 mb-3 mb-md-0">
+                <input type="text" class="form-control py-3" id="coupon" placeholder="Coupon Code">
+              </div>
+              <div class="col-md-4">
+                <button class="btn btn-primary btn-sm">Xác nhận </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 pl-5">
+            <div class="row justify-content-end">
+              <div class="col-md-7">
+                <div class="row">
+                  <div class="col-md-12 text-right border-bottom mb-5">
+                    <h3 class="text-black h4 text-uppercase">Tổng tiền </h3>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <span class="text-black">Thành tiền </span>
+                  </div>
+                  <div class="col-md-6 text-right">
+                    <strong class="text-black">{{total}}</strong>
+                  </div>
+                </div>
+                <div class="row mb-5">
+                  <div class="col-md-6">
+                    <span class="text-black">Tổng </span>
+                  </div>
+                  <div class="col-md-6 text-right">
+                    <strong class="text-black">{{total}}</strong>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <button class="btn btn-primary btn-lg py-3 btn-block" onclick="window.location='checkout.html'">Thanh toán </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+    {% endblock %}
