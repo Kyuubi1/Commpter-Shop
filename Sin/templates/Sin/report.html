@@ -1,0 +1,83 @@
+{% extends 'Sin/base1.html'%}
+{% load static %}
+    {% block content %}
+
+<link rel="stylesheet" href="{% static 'Sin/report.css' %}">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
+    <link rel="stylesheet" href="{% static 'Sin/fonts/icomoon/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'Sin/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Sin/css/owl.theme.default.min.css' %}">
+
+
+    <link rel="stylesheet" href="{% static 'Sin/css/aos.css' %}">
+<div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0"><a href="{% url 'Sin:home'%}">Trang chủ </a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Báo cáo  </strong></div>
+        </div>
+      </div>
+    </div>
+<div class="border">
+    <div class="form">
+        <div class="form-sign-up">
+                <div class="ft-sign-up">
+            <form action="{% url 'Sin:report'%}" method="post">
+                {%  csrf_token %}
+                <h2><b>Phiếu báo cáo </b></h2>
+                <br/>
+                <div class="sign-up-username"><b class="title">Mã phiếu</b>   &nbsp; &nbsp;
+
+                    <p><select class="fixed" name="fixed">
+                        <option selected="selected" disabled>---Chọn phiếu  --</option>
+                        {% for data in data_fix %}
+                        <option value="{{data}}">{{data.id}}</option>
+                        {% endfor%}
+                    </select></p>
+
+                </div>
+                <div class="sign-up-phone"><b class="title"> Người phụ trách</b>  &nbsp;&nbsp;&nbsp;&nbsp;
+                   <select class="assignee" name="assignee">
+                       <option selected="selected" disabled>---Người phụ trách  --</option>
+                       {% for em in employee %}
+                        <option value="{{em}}">{{em.username}}</option>
+                       {% endfor%}
+                    </select>
+                </div>
+                    <div class="sign-up-address"><b class="title">Loại báo cáo</b>
+                    <ul class="fixe">&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;
+                    <li><input type="radio" value="0" name="choice">  Bảo hành  </li>
+                        <li><input type="radio" value="1"  name="choice"> Giao hàng  </li>
+                    </ul>
+                </div>
+                    <div class="sign-up-address"><b class="title">Trạng thái</b>
+                    <ul class="fixe">&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;
+                    <li><input type="radio" value="0" name="choose"> Chưa xử lí  </li>
+                        <li><input type="radio" value="1"  name="choose">  Đã xử lí  </li>
+                    </ul>
+                </div>
+                <div class="btn-sign-up"><input type="submit" value="Xác nhận" class="btn-sign">
+
+                </div>
+            </form>
+                </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'Sin/js/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'Sin/js/jquery-ui.js' %}"></script>
+  <script src="{% static 'Sin/js/popper.min.js' %}"></script>
+  <script src="{% static 'Sin/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'Sin/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'Sin/js/jquery.magnific-popup.min.js' %}"></script>
+  <script src="{% static 'Sin/js/aos.js' %}"></script>
+
+  <script src="{% static 'Sin/js/main.js' %}"></script>
+<br/>
+<br/>
+    {% endblock %}

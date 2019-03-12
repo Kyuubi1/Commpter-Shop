@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .forms import Login, Signup, UpdateAccount, ServiceRegister, ServiceAssign, Carts, Pay
+from .forms import Login, Signup, UpdateAccount, ServiceRegister, ServiceAssign, Carts, Pay, ReportForm
 from django.contrib.auth import authenticate, login
-from .models import Account, Product, Service, FixService, Cart
+from .models import Account, Product, Service, FixService, Cart, Report
 from django.views.generic import FormView
 
 
@@ -190,6 +190,36 @@ class DeleteProduct(View):
         return redirect('Sin:home')
 
 
+class AssigneeDetail(View):
+    def get(self, request):
+        acc = request.user
+        detail = FixService.objects.filter(employee=request.user)
+        return render(request, 'Sin/fixed_form_assignee.html', {'detail': detail, 'acc': acc})
+
+
+class ReportView(View):
+    def get(self, request):
+        acc = request.user
+        data_fix = FixService.objects.filter(employee=request.user)
+        employee = Account.objects.filter(is_staff=True)
+        return render(request, 'Sin/report.html', {'data_fix': data_fix, 'acc': acc, 'employee': employee})
+
+    def post(self, request):
+        form = ReportForm(request.POST)
+        fixed = form.data['fixed']
+        assignee = form.data['assignee']
+        type_report = form.data['choice']
+        is_fixed = form.data['choose']
+        em = Account.objects.get(username=assignee)
+        fi = FixService.objects.get(error=fixed)
+        rp = Report()
+        rp.fixed = fi
+        rp.assignee = em
+        rp.is_fixed = is_fixed
+        rp.type_report = type_report
+        rp.save()
+
+        return redirect('Sin:assignee_detail')
 
 
 

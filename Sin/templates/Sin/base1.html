@@ -36,13 +36,18 @@
 			{% if acc.is_superuser  %}
 			<li><a href="{% url 'admin:index'%}">Quản lí</a></li>
 			{% elif acc.is_staff   %}
-			<li><a href="#">Bảo hành </a></li>
+			<li><a href="{% url 'Sin:assignee_detail'%}">Bảo hành </a></li>
             {% else%}
             <li><a href="{% url 'Sin:service'%}">Dịch vụ</a></li>
 			{% endif %}
 			<li class="has-dropdown">
                 {% if acc.is_superuser %}
-                <a href="{% url 'Sin:assignee'%}">Đơn hàng</a>
+                <a href="#">Phụ trách </a>
+                <ul class="dropdown">
+						<li><a href="{% url 'Sin:assignee'%}">Bảo Hành </a></li>
+						<li><a href="{% url 'Sin:index'%}">Giao Hàng </a></li>
+
+						</ul>
                 {% elif acc.is_staff   %}
 			    <a href="#">Giao hàng </a>
                 {% else%}
@@ -55,7 +60,7 @@
 					<a href="#">Tài khoản</a>
 					<ul class="dropdown">
 						<li><a href="{% url 'Sin:profile'%}">{{acc.username}}</a></li>
-						<li><a href="{% url 'Sin:logout'%}">Đăng xuất</a></li>
+						<li><a href="{% url 'Sin:index'%}">Đăng xuất</a></li>
 
 						</ul>
 			</li>

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Account, Service, FixService, Cart, Payment
+from .models import Account, Service, FixService, Cart, Payment, Report
 
 
 class Login(forms.ModelForm):
@@ -69,5 +69,11 @@ class Carts(forms.ModelForm):
 class Pay(forms.ModelForm):
     class Meta:
         model = Payment
-        fields = {'payment',}
+        fields = {'payment', }
 
+
+class ReportForm(forms.ModelForm):
+    class Meta:
+        model = Report
+
+        fields = {'fixed', 'assignee', 'type_report', 'is_fixed', }

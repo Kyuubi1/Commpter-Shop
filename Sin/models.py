@@ -69,3 +69,17 @@ class Payment(models.Model):
 
     def __str__(self):
         return self.customer
+
+
+class Report(models.Model):
+    fixed = models.ForeignKey(FixService, on_delete=models.CASCADE)
+    assignee = models.ForeignKey(Account, on_delete=models.CASCADE)
+    is_fixed = models.IntegerField(default=1)
+    created_datetime = models.DateTimeField(auto_now_add=True)
+    type_report = models.IntegerField(default=0)
+
+    def __str__(self):
+        if self.type_report == 1:
+            return "Bảo hành "
+        else:
+            return "Giao hàng "

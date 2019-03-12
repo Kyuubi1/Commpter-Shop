@@ -18,5 +18,6 @@ urlpatterns = [
     path('service/assignee/', views.ServiceAssignee.as_view(), name='assignee'),
     path('product/cart/', views.BoxProduct.as_view(), name='cart'),
     path('product/cart/<int:cart_id>/', views.DeleteProduct.as_view(), name='cart_delete'),
-
+    path('assignee/detail/', views.AssigneeDetail.as_view(), name='assignee_detail'),
+    path('report/', views.ReportView.as_view(), name='report'),
 ]
