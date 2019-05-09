@@ -1,6 +1,6 @@
 
 from django.contrib import admin
-from .models import Account, Product, Category, Service, FixService, Cart, Report
+from .models import Account, Product, Category, Service, FixService, Cart, Report, Bill, ProductCart
 # Register your models here.
 
 admin.site.site_header = "Meliodas"
@@ -21,6 +21,8 @@ admin.site.register(Service)
 admin.site.register(FixService)
 admin.site.register(Cart)
 admin.site.register(Report)
+admin.site.register(ProductCart)
+admin.site.register(Bill)
 
 
 

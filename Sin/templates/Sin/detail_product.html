@@ -40,6 +40,11 @@
             {% csrf_token %}
               <div>{{cart.number}}</div>
             <input type="submit" value="Thêm vào giỏ" class="btn-login">
+                {%  else %}
+                <form action="" method="post">
+            {% csrf_token %}
+              <div>{{cart.number}}</div>
+                </form>
         </form>
             {% endif %}
             <p></p>
@@ -63,13 +68,13 @@
               <div class="item">
                 <div class="block-4 text-center">
                   <figure class="block-4-image">
-                    <img src="{{ item.image.url}}" alt="Image placeholder" class="img-fluid">
+                    <img src="{{ item.image.url}}" alt="Image placeholder" class="img-fluid", href="{% url 'Sin:detail' item.id %}">
                   </figure>
                   <div class="block-4-text p-4">
 
                     <h3><a href="{% url 'Sin:detail' item.id %}">{{ item.name}}</a></h3>
                     <p class="mb-0">{{ item.category }}</p>
-                    <p class="text-primary font-weight-bold">{{item.cost}}</p>
+                    <p class="text-primary font-weight-bold">{{item.cost}} đ</p>
                   </div>
                 </div>
               </div>

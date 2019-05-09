@@ -1,5 +1,5 @@
 from django import forms
-from .models import Account, Service, FixService, Cart, Payment, Report
+from .models import Account, Service, FixService, Cart, Payment, Report, Product
 
 
 class Login(forms.ModelForm):
@@ -44,7 +44,7 @@ class ServiceRegister(forms.ModelForm):
     class Meta:
         model = Service
 
-        fields = {'customer_name', 'address', 'phone',}
+        fields = {'customer_name', 'address', 'phone', }
         widgets = {
             'customer_name': forms.TextInput(attrs={'class': 'username1', 'placeholder': 'Tên đăng nhập...'}),
             'address': forms.TextInput(attrs={'class': 'address1', 'placeholder': 'Địa chỉ...'}),
@@ -77,3 +77,12 @@ class ReportForm(forms.ModelForm):
         model = Report
 
         fields = {'fixed', 'assignee', 'type_report', 'is_fixed', }
+
+
+class SearchProduct(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = {'category', }
+        widgets = {
+            'category': forms.TextInput(attrs={'class': 'in', 'placeholder': 'Search...'})
+        }

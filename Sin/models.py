@@ -57,9 +57,6 @@ class Cart(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
     number = models.IntegerField(default=0)
 
-    def __str__(self):
-        return self.product
-
 
 class Payment(models.Model):
     customer = models.ForeignKey(Account, on_delete=models.CASCADE)
@@ -83,3 +80,19 @@ class Report(models.Model):
             return "Bảo hành "
         else:
             return "Giao hàng "
+
+
+class ProductCart(models.Model):
+    customer = models.ForeignKey(Account, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    number_pd = models.IntegerField()
+    cost = models.IntegerField()
+
+
+class Bill(models.Model):
+    customer = models.ForeignKey(Account, on_delete=models.CASCADE)
+    total_payment = models.IntegerField()
+    address = models.CharField(max_length=100)
+    phone = models.IntegerField()
+    created_datetime = models.DateTimeField(auto_now_add=True, null=True)
+

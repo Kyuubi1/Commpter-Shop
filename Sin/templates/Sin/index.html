@@ -43,6 +43,7 @@
     <span class="sr-only">Next</span>
   </a>
 </div>
+  </div>
 <hr width="40%" align="center" color="#1eaace" ;/>
 
     <div class="site-section">
@@ -53,7 +54,7 @@
 
 
             <div class="row mb-5">
-              {% for item in product %}
+              {% for item in orders %}
               <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                 <div class="block-4 text-center border">
                   <figure class="block-4-image">
@@ -72,16 +73,26 @@
             </div>
             <div class="row" data-aos="fade-up">
               <div class="col-md-12 text-center">
-                <div class="site-block-27">
-                  <ul>
-                    <li><a href="#">&lt;</a></li>
-                    <li class="active"><span>1</span></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">&gt;</a></li>
-                  </ul>
+                <div class="site-block-27" style="margin-left: 440px">
+                  <ul class="pagination">
+                  {% if orders.has_previous %}
+                    <li><a href="?page={{ orders.previous_page_number }}">&laquo;</a></li>
+                  {% else %}
+                    <li class="disabled"><span>&laquo;</span></li>
+                  {% endif %}
+                  {% for i in orders.paginator.page_range %}
+                    {% if orders.number == i %}
+                      <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                      <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                  {% endfor %}
+                  {% if orders.has_next %}
+                    <li><a href="?page={{ orders.next_page_number }}">&raquo;</a></li>
+                  {% else %}
+                    <li class="disabled"><span>&raquo;</span></li>
+                  {% endif %}
+                </ul>
                 </div>
               </div>
             </div>

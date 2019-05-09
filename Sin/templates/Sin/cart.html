@@ -28,11 +28,11 @@
         </div>
       </div>
     </div>
-
+    <form method="post" action="{% url 'Sin:payment'%}">
     <div class="site-section">
       <div class="container">
         <div class="row mb-5">
-          <form class="col-md-12" method="post">
+          <form class="col-md-12" method="p">
             <div class="site-blocks-table">
               <table class="table table-bordered">
                 <thead>
@@ -59,14 +59,16 @@
                     </td>
                     <td>{{pro.cart.product.cost}} đ</td>
                     <td>
-                      <input type="number" value={{pro.cart.number}} id="id_number">
+                      <input type="number" value={{pro.cart.number}} id="id_number"/>
 
                     </td>
-                    <td>{{pro.cost}}</td>
-                    <td><button type="submit" class="btn btn-primary">X</button></td>
+                    <td>{{pro.cost}} đ</td>
+                    <td><input type="submit" class="btn btn-primary" value="X"/></td>
                   </tr>
                   </form>
                   {% endfor %}
+                  {% else %}
+                    <h3>None</h3>
                 {% endif %}
                 </tbody>
               </table>
@@ -99,7 +101,7 @@
             </div>
           </div>
           <div class="col-md-6 pl-5">
-            <div class="row justify-content-end">
+
               <div class="col-md-7">
                 <div class="row">
                   <div class="col-md-12 text-right border-bottom mb-5">
@@ -111,7 +113,7 @@
                     <span class="text-black">Thành tiền </span>
                   </div>
                   <div class="col-md-6 text-right">
-                    <strong class="text-black">{{total}}</strong>
+                    <strong class="text-black">{{total}} đ</strong>
                   </div>
                 </div>
                 <div class="row mb-5">
@@ -119,13 +121,13 @@
                     <span class="text-black">Tổng </span>
                   </div>
                   <div class="col-md-6 text-right">
-                    <strong class="text-black">{{total}}</strong>
+                    <strong class="text-black">{{total}} đ </strong>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="col-md-12">
-                    <button class="btn btn-primary btn-lg py-3 btn-block" onclick="window.location='checkout.html'">Thanh toán </button>
+                    <input type="submit" class="btn btn-primary" value="Thanh toán "/>
                   </div>
                 </div>
               </div>
@@ -133,6 +135,7 @@
           </div>
         </div>
       </div>
+    </form>
     </div>
 
 

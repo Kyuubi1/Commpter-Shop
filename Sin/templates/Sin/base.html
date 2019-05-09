@@ -46,7 +46,7 @@
 						</ul>
 			</li>
 			<li style="padding-left:320px;">
-				<form>
+				<form method="post", action="{% url 'Sin:search'%}">
 					<style>
 						.in {
       					width: 130px;
@@ -55,14 +55,36 @@
       					border-radius: 4px;
       					outline:none;
       					padding: 12px 14px;
-      					height:15px;
+      					height:30px;
       					transition:0.6s ease-in-out;
     					}
-    					input[type="text"]:focus{
-    					width:200px;
-							}
+
+
+                        .btn-search{
+                          width: 30px;
+                          height: 18px;
+                          margin-left: 220px;
+                          margin-top: -30px;
+
+                        }
+                        .btn-search input{
+                            border: 1px solid ;
+                            border-radius: 10px;
+                            outline: none;
+                            height: 28px;
+                        }
+                        .bss{
+                            margin-left: 85px;
+                        }
 					</style>
-				<input class="in" type="text" name="search" placeholder="Search..">
+                        {%  csrf_token %}
+                        <div class="bss">{{ search.category}} </div>
+                        <div class="btn-search"><input type="submit", value="Search" ></div>
+                    <!--{{ search }}-->
+
+
+
+				<!--<input class="in" type="text" name="search" placeholder="Search..">-->
 
 				</form>
 			</li>
@@ -116,7 +138,7 @@
             <div class="block-5 mb-5">
               <h3 class="footer-heading mb-4">Thông tin liên hệ </h3>
               <ul class="list-unstyled">
-                <li class="address">01.Meliodas - 1997 Anh Kyuubi . VN</li>
+                <li class="address">01.Meliodas - 1997 Anh Kyuubi</li>
                 <li class="phone"><a href="tel://">0337074839</a></li>
                 <li class="email">kyuubi1@gmail.com</li>
               </ul>

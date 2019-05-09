@@ -1,22 +1,35 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .forms import Login, Signup, UpdateAccount, ServiceRegister, ServiceAssign, Carts, Pay, ReportForm
+from .forms import Login, Signup, UpdateAccount, ServiceRegister, ServiceAssign, Carts, Pay, ReportForm, SearchProduct
 from django.contrib.auth import authenticate, login
-from .models import Account, Product, Service, FixService, Cart, Report
+from .models import Account, Product, Service, FixService, Cart, Report, ProductCart, Bill
 from django.views.generic import FormView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 class ClassIndex(View):
     def get(self, request):
         product = Product.objects.all()
-        return render(request, 'Sin/index.html', {'product': product})
+        paginator = Paginator(product, 6)
+        page = request.GET.get('page', 1)
+        try:
+            orders_paged = paginator.page(page)
+        except PageNotAnInteger:
+            orders_paged = paginator.page(1)
+        except EmptyPage:
+            orders_paged = paginator.page(paginator.num_pages)
+        search = SearchProduct()
+        return render(request, 'Sin/index.html',
+                      {'product': product, 'search': search, "orders": orders_paged})
 
 
 class ClassLogin(View):
 
     def get(self, request):
         lg = Login()
-        return render(request, 'Sin/Login.html', {'login': lg})
+        search = SearchProduct()
+
+        return render(request, 'Sin/Login.html', {'login': lg, 'search': search})
 
     def post(self, request):
         username = request.POST['username']
@@ -57,14 +70,18 @@ class SignupView(FormView):
 class InforUser(View):
         def get(self, request):
             user = request.user
-            return render(request, 'Sin/infor.html', {'user': user, 'acc': user})
+            search = SearchProduct()
+
+            return render(request, 'Sin/infor.html', {'user': user, 'acc': user, 'search': search})
 
 
 class AccountUpdate(View):
     def get(self, request):
         acc = request.user
         user = UpdateAccount()
-        return render(request, 'Sin/update.html', {'user': user, 'acc': acc})
+        search = SearchProduct()
+
+        return render(request, 'Sin/update.html', {'user': user, 'acc': acc, 'search': search})
 
     def post(self, request):
         acc = request.user
@@ -81,33 +98,52 @@ class AccountUpdate(View):
 class ServiceView(View):
     def get(self, request):
         acc = request.user
-        return render(request, 'Sin/service.html', {'acc': acc})
+        search = SearchProduct()
+
+        return render(request, 'Sin/service.html', {'acc': acc, 'search': search})
 
 
 class HomeView(View):
     def get(self, request):
         user = request.user
         product = Product.objects.all()
-        return render(request, 'Sin/shop.html', {'acc': user, 'product': product})
+        paginator = Paginator(product, 6)
+        page = request.GET.get('page', 1)
+        try:
+            orders_paged = paginator.page(page)
+        except PageNotAnInteger:
+            orders_paged = paginator.page(1)
+        except EmptyPage:
+            orders_paged = paginator.page(paginator.num_pages)
+        search = SearchProduct()
+        return render(request, 'Sin/shop.html', {'acc': user, 'product': product, 'search': search, "orders": orders_paged})
 
 
 class DetailProduct(View):
     def get(self, request, product_id):
         product = Product.objects.get(id=product_id)
+        search = SearchProduct()
         cart = Carts()
         acc = request.user
         list_product = Product.objects.all().order_by('category')
-        return render(request, 'Sin/detail_product.html', {'product': product, 'lists': list_product, 'acc': acc, 'cart': cart})
+        return render(request, 'Sin/detail_product.html', {'product': product, 'lists': list_product, 'acc': acc, 'cart': cart,
+                                                           'search': search})
 
     def post(self, request, product_id):
         form = Carts(request.POST)
         number = form.data['number']
-        print(number)
         cart = Cart()
-        cart.number = number
-        cart.product = Product.objects.get(id=product_id)
-        cart.user = request.user
-        cart.save()
+
+        if Cart.objects.filter(product_id=product_id, user=request.user).exists():
+            carts = Cart.objects.get(product_id=product_id, user=request.user)
+            carts.number = int(carts.number) + int(number)
+            carts.save()
+
+        else:
+            cart.number = number
+            cart.product = Product.objects.get(id=product_id)
+            cart.user = request.user
+            cart.save()
         return redirect('Sin:home')
 
 
@@ -128,7 +164,8 @@ class RegisterService(FormView):
 class SuccessRegister(View):
     def get(self, request):
         acc = request.user
-        return render(request, 'Sin/complete_register.html', {'acc': acc})
+        search = SearchProduct()
+        return render(request, 'Sin/complete_register.html', {'acc': acc, 'search': search})
 
 
 class ServiceAssignee(View):
@@ -137,7 +174,9 @@ class ServiceAssignee(View):
         employee = Account.objects.filter(is_staff=True)
         fix = Service.objects.all()
         product = Product.objects.all()
-        return render(request, 'Sin/assignee.html', {'acc': acc, 'employee': employee, 'fix': fix, 'product': product})
+        search = SearchProduct()
+        return render(request, 'Sin/assignee.html', {'acc': acc, 'employee': employee, 'fix': fix, 'product': product,
+                                                     'search': search})
 
     def post(self, request):
         acc = request.user
@@ -170,31 +209,37 @@ class BoxProduct(View):
     def get(self, request):
         acc = request.user
         cart = Cart.objects.filter(user=acc)
-        cart_infor = []
-        costs = []
-        for item in cart:
-            cost = item.product.cost * item.number
-            costs.append(cost)
-            carts = Infor(item, cost)
-            cart_infor.append(carts)
-        s = 0
-        for ct in costs:
-            s = s+ct
-        return render(request, 'Sin/cart.html', {'acc': acc, 'carts': cart_infor, 'total': s})
+        search = SearchProduct()
+
+        if cart is not None:
+            cart_infor = []
+            costs = []
+            for item in cart:
+                cost = item.product.cost * item.number
+                costs.append(cost)
+                carts = Infor(item, cost)
+                cart_infor.append(carts)
+            s = 0
+            for ct in costs:
+                s = s+ct
+            return render(request, 'Sin/cart.html', {'acc': acc, 'carts': cart_infor, 'total': s, 'search': search})
+        else:
+            return render(request, 'Sin/cart.html', {'acc': acc, 'search': search})
 
 
 class DeleteProduct(View):
-    def post(self, request, cart_id):
-        car = Cart.objects.filter(id=cart_id)
-        print(car)
-        return redirect('Sin:home')
+        def post(self, request, cart_id):
+            Cart.objects.filter(id=cart_id, user=request.user).delete()
+            return redirect('Sin:cart')
 
 
 class AssigneeDetail(View):
     def get(self, request):
         acc = request.user
+        search = SearchProduct()
+
         detail = FixService.objects.filter(employee=request.user)
-        return render(request, 'Sin/fixed_form_assignee.html', {'detail': detail, 'acc': acc})
+        return render(request, 'Sin/fixed_form_assignee.html', {'detail': detail, 'acc': acc, 'search': search})
 
 
 class ReportView(View):
@@ -202,7 +247,9 @@ class ReportView(View):
         acc = request.user
         data_fix = FixService.objects.filter(employee=request.user)
         employee = Account.objects.filter(is_staff=True)
-        return render(request, 'Sin/report.html', {'data_fix': data_fix, 'acc': acc, 'employee': employee})
+        search = SearchProduct()
+
+        return render(request, 'Sin/report.html', {'data_fix': data_fix, 'acc': acc, 'employee': employee, 'search': search})
 
     def post(self, request):
         form = ReportForm(request.POST)
@@ -222,4 +269,155 @@ class ReportView(View):
         return redirect('Sin:assignee_detail')
 
 
+class UpdateCart(View):
+    def post(self, request, product_id):
+        pass
 
+
+class Payment(View):
+    def post(self, request):
+        cart = Cart.objects.filter(user=request.user)
+        costs = []
+        totals = 0
+        for item in cart:
+            prd = Product.objects.get(id=item.product.id)
+            cost = prd.cost * item.number
+            costs.append(cost)
+            product_cart = ProductCart.objects.create(
+                product=item.product,
+                number_pd=item.number,
+                cost=cost,
+                customer=request.user
+            )
+            product_cart.save()
+        for cost in costs:
+            totals = totals + cost
+        cus = Account.objects.get(id=request.user.id)
+        add = cus.address
+        phone = cus.phone
+        bill = Bill.objects.create(
+            customer=request.user,
+            total_payment=totals,
+            address=add,
+            phone=phone
+        )
+        bill.save()
+        Cart.objects.filter(user=request.user).delete()
+        return redirect('Sin:home')
+
+
+class Search(View):
+
+    def post(self, request):
+        form = SearchProduct(request.POST)
+        search = form.data['category']
+        if search == 'MSI-Gaming':
+            return redirect('Sin:search-MSI')
+        if search == 'HP':
+            return redirect('Sin:search-HP')
+        if search == 'Acer':
+            return redirect('Sin:search-Acer')
+        if search == 'Asus':
+            return redirect('Sin:search-Asus')
+        if search == 'Dell':
+            return redirect('Sin:search-Dell')
+        if search == 'MacBook':
+            return redirect('Sin:search-Mac')
+        return redirect('Sin:home')
+
+
+class HP(View):
+    def get(self, request):
+        product = Product.objects.filter(category__name="HP")
+        search = SearchProduct()
+        paginator = Paginator(product, 6)
+        page = request.GET.get('page', 1)
+        try:
+            orders_paged = paginator.page(page)
+        except PageNotAnInteger:
+            orders_paged = paginator.page(1)
+        except EmptyPage:
+            orders_paged = paginator.page(paginator.num_pages)
+        return render(request, 'Sin/Search.html',
+                      {'product': product, 'search': search, "orders": orders_paged})
+
+
+class Mac(View):
+    def get(self, request):
+        product = Product.objects.filter(category__name="MacBook")
+        search = SearchProduct()
+        paginator = Paginator(product, 6)
+        page = request.GET.get('page', 1)
+        try:
+            orders_paged = paginator.page(page)
+        except PageNotAnInteger:
+            orders_paged = paginator.page(1)
+        except EmptyPage:
+            orders_paged = paginator.page(paginator.num_pages)
+        return render(request, 'Sin/Search.html',
+                      {'product': product, 'search': search, "orders": orders_paged})
+
+
+class Acer(View):
+    def get(self, request):
+        product = Product.objects.filter(category__name="Acer")
+        search = SearchProduct()
+        paginator = Paginator(product, 6)
+        page = request.GET.get('page', 1)
+        try:
+            orders_paged = paginator.page(page)
+        except PageNotAnInteger:
+            orders_paged = paginator.page(1)
+        except EmptyPage:
+            orders_paged = paginator.page(paginator.num_pages)
+        return render(request, 'Sin/Search.html',
+                      {'product': product, 'search': search, "orders": orders_paged})
+
+
+class Asus(View):
+    def get(self, request):
+        product = Product.objects.filter(category__name="Asus")
+        search = SearchProduct()
+        paginator = Paginator(product, 6)
+        page = request.GET.get('page', 1)
+        try:
+            orders_paged = paginator.page(page)
+        except PageNotAnInteger:
+            orders_paged = paginator.page(1)
+        except EmptyPage:
+            orders_paged = paginator.page(paginator.num_pages)
+        return render(request, 'Sin/Search.html',
+                      {'product': product, 'search': search, "orders": orders_paged})
+
+
+class Dell(View):
+    def get(self, request):
+        category = "Dell"
+        product = Product.objects.filter(category__name=category)
+        search = SearchProduct()
+        paginator = Paginator(product, 6)
+        page = request.GET.get('page', 1)
+        try:
+            orders_paged = paginator.page(page)
+        except PageNotAnInteger:
+            orders_paged = paginator.page(1)
+        except EmptyPage:
+            orders_paged = paginator.page(paginator.num_pages)
+        return render(request, 'Sin/Search.html',
+                      {'product': product, 'search': search, "orders": orders_paged})
+
+
+class MSI(View):
+    def get(self, request):
+        product = Product.objects.filter(category__name="MSI-Gaming")
+        search = SearchProduct()
+        paginator = Paginator(product, 6)
+        page = request.GET.get('page', 1)
+        try:
+            orders_paged = paginator.page(page)
+        except PageNotAnInteger:
+            orders_paged = paginator.page(1)
+        except EmptyPage:
+            orders_paged = paginator.page(paginator.num_pages)
+        return render(request, 'Sin/Search.html',
+                      {'product': product, 'search': search, "orders": orders_paged})
